@@ -1,0 +1,241 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Stack;
+
+public class interpreter {
+	
+	public static void interpreter (String inputFile, String outputFile){
+		Stack<String> stack = new Stack<String>();
+		try {
+			FileInputStream fstream = new FileInputStream(inputFile);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(fstream));
+			while (true){
+				 String name = reader.readLine();
+						if(name.charAt(0)=='p' && name.charAt(1)=='u' && name.charAt(2)=='s' && name.charAt(3)=='h') {
+//							if(name.charAt(5)==':') {
+//								stack.push(name.substring(5));
+//								continue;
+//							}
+							
+							
+							
+//							else if(name.charAt(5)=='_' && name.charAt(6)=='_') {
+//									stack.push(name);
+//								continue;
+//								}
+//							
+//							else if(name.charAt(5)=='-') {
+//								try {
+//									int thisint = Integer.parseInt(name.substring(5));
+//									stack.push(name.substring(5));
+//								continue;
+//								}catch(NumberFormatException e) {
+//									stack.push(":error:");
+//								continue;
+//								}
+//							}
+							
+							
+								try {
+									
+									int thisint = Integer.parseInt(name.substring(5));
+									stack.push(Integer.toString(thisint));
+									continue;
+								}catch (NumberFormatException e){
+									try {
+										float thisfloat = Float.parseFloat(name.substring(5));
+										stack.push(":error:");
+										continue;
+									}catch(NumberFormatException d) {
+									    if(name.charAt(5)=='"') {
+											stack.push(name.substring(6, name.length()-1));
+											continue;
+										}
+										
+										stack.push(name.substring(5));
+									}
+							
+							}
+							
+						}
+				 else if (name.charAt(0)=='q' && name.charAt(1)=='u' && name.charAt(2)=='i' && name.charAt(3)=='t') {
+					//stack.push("made it here");	
+					 break;
+					}
+				 else if (name.charAt(0)=='m' && name.charAt(1)=='u' && name.charAt(2)=='l') {
+						if(stack.size()<=1) {
+							stack.push(":error:");
+						}
+						else {
+							String x = stack.pop();
+							String y = stack.pop();
+							try {
+								int int1 = Integer.parseInt(x);
+								int int2 = Integer.parseInt(y);
+								int result = int1*int2;
+								stack.push(Integer.toString(result));
+							}catch(NumberFormatException e) {
+								stack.push(y);
+								stack.push(x);
+								stack.push(":error:");
+							}
+						}
+					}
+					else if (name.charAt(0)=='a' && name.charAt(1)=='d' && name.charAt(2)=='d') {
+						
+						if(stack.size()<=1) {
+							stack.push(":error:");
+						}
+						else {
+							String x = stack.pop();
+							String y = stack.pop();
+							try {
+								int int1 = Integer.parseInt(x);
+								int int2 = Integer.parseInt(y);
+								int result = int1+int2;
+								stack.push(Integer.toString(result));
+							}catch(NumberFormatException e) {
+								stack.push(y);
+								stack.push(x);
+								stack.push(":error:");
+							}
+						}
+					}
+					else if (name.charAt(0)=='s' && name.charAt(1)=='u' && name.charAt(2)=='b') {
+						if(stack.size()<=1) {
+							stack.push(":error:");
+						}
+						else {
+							String x = stack.pop();
+							String y = stack.pop();
+							try {
+								int int1 = Integer.parseInt(x);
+								int int2 = Integer.parseInt(y);
+								int result = int2-int1;
+								stack.push(Integer.toString(result));
+							}catch(NumberFormatException e) {
+								stack.push(y);
+								stack.push(x);
+								stack.push(":error:");
+							}
+						}
+					}
+					else if (name.charAt(0)=='r' && name.charAt(1)=='e' && name.charAt(2)=='m') {
+						if(stack.size()<=1) {
+							stack.push(":error:");
+						}
+						else {
+							String x = stack.pop();
+							String y = stack.pop();
+							try {
+								int int1 = Integer.parseInt(x);
+								int int2 = Integer.parseInt(y);
+								if(int1==0) {
+									stack.push(y);
+									stack.push(x);
+									stack.push(":error:");
+								}else {
+								int result = int2%int1;
+								stack.push(Integer.toString(result));
+								}
+								}catch(NumberFormatException e) {
+								stack.push(y);
+								stack.push(x);
+								stack.push(":error:");
+							}
+						}
+					}
+					else if (name.charAt(0)=='n' && name.charAt(1)=='e' && name.charAt(2)=='g') {
+					if(stack.size()==0) {
+						stack.push(":error:");
+					}
+					else {
+						String u = stack.pop();
+						try {
+							int y = Integer.parseInt(u);
+							y = y*-1;
+							stack.push(Integer.toString(y));
+						}catch(NumberFormatException e) {
+							stack.push(u);
+							stack.push(":error:");
+						}
+					}
+					
+					}
+					else if (name.charAt(0)=='d' && name.charAt(1)=='i' && name.charAt(2)=='v') {
+						if(stack.size()<=1) {
+							stack.push(":error:");
+						}
+						else {
+							String x = stack.pop();
+							String y = stack.pop();
+							try {
+								int int1 = Integer.parseInt(x);
+								int int2 = Integer.parseInt(y);
+								if(int1==0) {
+									stack.push(y);
+									stack.push(x);
+									stack.push(":error:");
+								}else {
+								int result = int2/int1;
+								stack.push(Integer.toString(result));
+								}
+								}catch(NumberFormatException e) {
+								stack.push(y);
+								stack.push(x);
+								stack.push(":error:");
+							}
+						}
+					}
+					else if (name.charAt(0)=='p' && name.charAt(1)=='o' && name.charAt(2)=='p') {
+						if(stack.size()==0) {
+							stack.push(":error:");
+						}
+						else {
+							stack.pop();
+						}
+						
+						}
+					else if (name.charAt(0)=='s' && name.charAt(1)=='w' && name.charAt(2)=='a' && name.charAt(3)=='p') {
+						if(stack.size()<=1) {
+							stack.push(":error:");
+						}
+						else {
+							String a = stack.pop();
+							String b = stack.pop();
+							stack.push(a);
+							stack.push(b);
+						}
+						
+						}
+			}
+
+				reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			FileWriter writer = new FileWriter(outputFile);
+			if(stack.empty()==false) {
+				while(stack.isEmpty()==false) {
+					writer.write(stack.pop());
+					writer.write("\n");
+				}
+			}
+				
+			writer.close();
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+
+}
