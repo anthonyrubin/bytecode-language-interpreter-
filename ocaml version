@@ -1,0 +1,229 @@
+let interpreter x y: unit  =
+let a = Stack.create () in 
+let ic = open_in x in
+try
+while true do
+let line = input_line ic in     
+if('p' == line.[0] && 'u' == line.[1] && 's' == line.[2] && 'h' == line.[3]) then
+
+let x = String.sub line 5 ((String.length line)-5)  in 
+match int_of_string(x) with
+|int -> Printf.printf "%s\n"(x^"pushing this"); Stack.push x a
+|exception _ -> match float_of_string(x) with
+		|float -> Stack.push ":error:" a
+		|exception _ -> match x.[0] with 
+				|'"' -> Stack.push (String.sub x 1 ((String.length x)-2)) a
+				|':'-> Printf.printf "%s\n"("made it here " ^ x); Stack.push x a
+				|_-> Stack.push x a
+  
+
+else  if ('a' == line.[0] && 'd' == line.[1] && 'd' == line.[2]) then begin 
+           if(Stack.length a <= 1) then begin 
+	            Stack.push ":error:" a;  Printf.printf "%s\n" ("add printing error");
+	            end 
+           else begin 
+			let g = Stack.pop a in
+			let h = Stack.pop a in 
+			match int_of_string(g) with 
+				|int-> begin 
+				       Printf.printf "%s\n"(h^" this is h add first");
+				       match int_of_string(h) with  
+				         |int-> begin 
+				                Printf.printf "%s\n"(g^" this is g add final");let k = int_of_string(g) in 
+					            let y = int_of_string(h) in 
+							    let result = k+y in
+								Stack.push (string_of_int(result)) a
+								end 
+						 |exception _-> 
+						 Stack.push h a;
+						 Stack.push g a;
+						 Stack.push ":error:" a;
+						end 
+				| exception _-> 
+				Stack.push h a;
+				Stack.push g a;
+			    Stack.push ":error:" a;
+			end
+			end 
+		
+	   else if ('m' == line.[0] && 'u' == line.[1] && 'l' == line.[2]) then begin 
+           Printf.printf "%d\n" (Stack.length a);
+           if(Stack.length a <= 1) then begin 
+	            Stack.push ":error:" a
+	            end 
+           else begin 
+			let g = Stack.pop a in
+			let h = Stack.pop a in 
+			match int_of_string(g) with 
+				|int-> begin 
+				       Printf.printf "%s\n"(h^" this is h mul first");
+				       match int_of_string(h) with  
+				         |int-> begin 
+				                Printf.printf "%s\n"(g^" this is g mul final");let k = int_of_string(g) in 
+					            let y = int_of_string(h) in 
+							    let result = k*y in
+								Stack.push (string_of_int(result)) a
+								end 
+						 |exception _-> 
+						 Stack.push h a;
+						 Stack.push g a;
+						 Stack.push ":error:" a;
+						end 
+				| exception _-> 
+				Stack.push h a;
+				Stack.push g a;
+				Stack.push ":error:" a;
+			end
+			end 
+
+    
+	  else if ('s' == line.[0] && 'u' == line.[1] && 'b' == line.[2]) then begin 
+           Printf.printf "%d\n" (Stack.length a);
+           if(Stack.length a <= 1) then begin 
+	            Stack.push ":error:" a
+	            end 
+           else begin 
+			let g = Stack.pop a in
+			let h = Stack.pop a in 
+			match int_of_string(g) with 
+				|int-> begin 
+				       Printf.printf "%s\n"(h^" this is h sub");
+				       match int_of_string(h) with  
+				         |int-> begin 
+				                Printf.printf "%s\n"(g^" this is g sub");let k = int_of_string(g) in 
+					            let y = int_of_string(h) in 
+							    let result = y-k in
+								Stack.push (string_of_int(result)) a
+								end 
+						 |exception _-> 
+						 Stack.push h a;
+						Stack.push g a;
+						Stack.push ":error:" a;
+						end 
+				| exception _-> 
+				Stack.push h a;
+				Stack.push g a;
+				Stack.push ":error:" a;
+			end
+			end 
+	
+	  else if ('d' == line.[0] && 'i' == line.[1] && 'v' == line.[2]) then begin 
+           Printf.printf "%d\n" (Stack.length a);
+           Printf.printf "%s\n" ("here we is");
+           if(Stack.length a <= 1) then begin 
+	            Stack.push ":error:" a
+	            end 
+           else begin 
+			let g = Stack.pop a in
+			let h = Stack.pop a in 
+			match int_of_string(g) with 
+				|int-> begin
+					if(int_of_string(g)==0) then
+					let () = Stack.push h a in 
+					let () = Stack.push g a in
+					Stack.push ":error:" a
+				else
+				   match int_of_string(h) with  
+				         |int-> begin 
+				                let k = int_of_string(g) in 
+					            let y = int_of_string(h) in 
+							    let result = y/k in
+								Stack.push (string_of_int(result)) a
+								end 
+						 |exception _-> 
+						 Stack.push h a;
+						Stack.push g a;
+						Stack.push ":error:" a;
+						end 
+				| exception _-> 
+				Stack.push h a;
+				Stack.push g a;
+				Stack.push ":error:" a;
+			end
+			end 
+
+	  else if ('r' == line.[0] && 'e' == line.[1] && 'm' == line.[2]) then begin 
+           if(Stack.length a <= 1) then begin 
+	            Stack.push ":error:" a
+	            end 
+           else begin 
+			let g = Stack.pop a in
+			let h = Stack.pop a in 
+			match int_of_string(g) with 
+				|int-> begin
+					if(int_of_string(g)==0) then
+					begin
+					Stack.push (h) a;
+					Stack.push (g) a;
+					Stack.push ":error:" a;	
+					end
+				else
+				   match int_of_string(h) with  
+				         |int-> begin 
+				                let k = int_of_string(g) in 
+					            let y = int_of_string(h) in 
+							    let result = y mod k in
+								Stack.push (string_of_int(result)) a
+								end 
+						 |exception _-> 
+						 Stack.push h a;
+				Stack.push g a;
+				Stack.push ":error:" a;
+						end 
+				| exception _-> 
+				Stack.push h a;
+				Stack.push g a;
+				Stack.push ":error:" a;
+			end
+			end 
+
+
+  else if ('p' == line.[0] && 'o' == line.[1] && 'p' == line.[2]) then begin
+          if Stack.length a == 0 then
+          Stack.push ":error:" a
+      else
+      for g=0 to 0 do
+      let x = Stack.pop a in Printf.printf "%s\n" (x^"popping this")
+  done;
+end
+ else if ('n' == line.[0] && 'e' == line.[1] && 'g' == line.[2]) then begin
+          if Stack.length a == 0 then
+          Stack.push ":error:" a
+      else
+     match int_of_string(Stack.top a) with
+     |int->begin
+     	let u = Stack.pop a in
+     	let u = int_of_string(u) in
+     	Stack.push (string_of_int(u * -1)) a
+     end
+     |exception _-> Stack.push ":error:" a
+end
+
+  else if ('s' == line.[0] && 'w' == line.[1] && 'a' == line.[2] && 'p' == line.[3]) then begin
+          if Stack.length a <= 1 then
+          Stack.push ":error:" a
+      else
+     let z = Stack.pop a in 
+     let () =  Printf.printf "%s\n"(z ^ " this is first") in
+     let b = Stack.pop a in 
+     let () =  Printf.printf "%s\n"(b ^ " this is second") in
+     Stack.push z a;
+     Stack.push b a;
+end
+
+done;
+with End_of_file ->
+close_in ic;
+
+let printer = open_out y in
+let q = Stack.length a in
+for k=0 to (q-1) do
+output_string printer (Stack.top a);
+Stack.pop a;
+output_string printer "\n";
+done;
+close_out printer;
+
+
+
+
